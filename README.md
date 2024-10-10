@@ -4,49 +4,55 @@ The main purpose of this repository is to show a working Node.js API Server + fr
 
 It is not a goal to be a comprehensive and definitive guide to making a TypeScript and Node project, but as a working reference maintained by the community. If you are interested in starting a new TypeScript project - check out the bootstrapping tools reference in [the TypeScript Website](https://www.typescriptlang.org/docs/home.html)
 
-
 [![Dependency Status](https://david-dm.org/Microsoft/TypeScript-Node-Starter.svg)](https://david-dm.org/Microsoft/TypeScript-Node-Starter) [![Build Status](https://travis-ci.org/Microsoft/TypeScript-Node-Starter.svg?branch=master)](https://travis-ci.org/Microsoft/TypeScript-Node-Starter)
 
 ![image](https://user-images.githubusercontent.com/820883/36764267-abbdb7f8-1be0-11e8-9678-2a9ea448d7f8.png)
 
-
-# Table of contents:
+## Table of contents
 
 - [Pre-reqs](#pre-reqs)
 - [Getting started](#getting-started)
 - [Deploying the app](#deploying-the-app)
-	- [Pre-reqs](#Prerequisites)
-	- [Deploying to Azure App Service](#deploying-to-azure-app-service)
+  - [Pre-reqs](#prerequisites)
+  - [Deploying to Azure App Service](#deploying-to-azure-app-service)
 - [TypeScript + Node](#typescript--node)
-	- [Getting TypeScript](#getting-typescript)
-	- [Project Structure](#project-structure)
-	- [Building the project](#building-the-project)
-	- [Type Definition (`.d.ts`) Files](#type-definition-dts-files)
-	- [Debugging](#debugging)
-	- [Testing](#testing)
-	- [ESLint](#eslint)
+  - [Getting TypeScript](#getting-typescript)
+  - [Project Structure](#project-structure)
+  - [Building the project](#building-the-project)
+  - [Type Definition (`.d.ts`) Files](#type-definition-dts-files)
+  - [Debugging](#debugging)
+  - [Testing](#testing)
+  - [ESLint](#eslint)
 - [Dependencies](#dependencies)
-	- [`dependencies`](#dependencies)
-	- [`devDependencies`](#devdependencies)
+  - [`dependencies`](#dependencies)
+  - [`devDependencies`](#devdependencies)
 - [Hackathon Starter Project](#hackathon-starter-project)
 
-# Pre-reqs
+## Pre-reqs
+
 To build and run this app locally you will need a few things:
+
 - Install [Node.js](https://nodejs.org/en/)
 - Install [MongoDB](https://docs.mongodb.com/manual/installation/)
 - Install [VS Code](https://code.visualstudio.com/)
 
-# Getting started
+## Getting started
+
 - Clone the repository
-```
+
+```bash
 git clone --depth=1 https://github.com/Microsoft/TypeScript-Node-Starter.git <project_name>
 ```
+
 - Install dependencies
-```
+
+```bash
 cd <project_name>
 npm install
 ```
+
 - Configure your mongoDB server
+
 ```bash
 # create the db directory
 sudo mkdir -p /data/db
@@ -58,18 +64,23 @@ sudo chmod 777 /data/db
 mkdir -p ~/data/db
 # user account has automatically read and write permissions for ~/data/db.
 ```
+
 - Start your mongoDB server (you'll probably want another command prompt)
+
 ```bash
 mongod
 
 # on macOS 10.15 or above the db directory is under home directory
 mongod --dbpath ~/data/db
 ```
+
 - Build and run the project
-```
+
+```bash
 npm run build
 npm start
 ```
+
 Or, if you're using VS Code, you can use `cmd + shift + b` to run the default build task (which is mapped to `npm run build`), and then you can use the command palette (`cmd + shift + p`) and select `Tasks: Run Task` > `npm: start` to run `npm start` for you.
 
 > **Note on editors!** - TypeScript has great support in [every editor](http://www.typescriptlang.org/index.html#download-links), but this project has been pre-configured for use with [VS Code](https://code.visualstudio.com/).
@@ -77,11 +88,13 @@ Throughout the README We will try to call out specific places where VS Code real
 
 Finally, navigate to `http://localhost:3000` and you should see the template being served and rendered locally!
 
-# Deploying the app
+## Deploying the app
+
 There are many ways to deploy a Node app, and in general, nothing about the deployment process changes because you're using TypeScript.
 In this section, I'll walk you through how to deploy this app to Azure App Service using the extensions available in VS Code because I think it is the easiest and fastest way to get started, as well as the most friendly workflow from a developer's perspective.
 
 ## Prerequisites
+
 - [**Azure account**](https://azure.microsoft.com/en-us/free/) - If you don't have one, you can sign up for free.
 The Azure free tier gives you plenty of resources to play around with including up to 10 App Service instances, which is what we will be using.
 - [**VS Code**](https://code.visualstudio.com/) - We'll be using the interface provided by VS Code to quickly deploy our app.
@@ -94,6 +107,7 @@ There are many different providers, but the easiest one to get started with is [
 If you don't have one, you can sign up for free, we will need it to send emails. There are many different providers that Nodemailer supports ([Well-known services](https://nodemailer.com/smtp/well-known/)), we'll be using [SendGrid](#sendgrid-account).
 
 ### Create a managed MongoDB with Atlas
+
 1. Navigate to [MongoDB's website](https://www.mongodb.com/cloud/atlas), sign up for a free account, and then log in.
 2. After creating the account, enter the organization name, project name, and select your preferred language (JavaScript).
 3. Select the **Shared Cluster** to get a free version with up to 512 MB storage which is great for development purposes.
@@ -120,16 +134,20 @@ Don't forget to return the `MONGO_URI_LOCAL` to your local test database (if you
 You can find **more information** about how to get started with Atlas [here](https://docs.atlas.mongodb.com/getting-started/).
 
 ### SendGrid Account
+
 1. Navigate to [SendGrid's Website](https://sendgrid.com/), sign up for a free account, and complete the verification process.
 2. Open your `.env` file and update `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` with your SendGrid username and password respectively.
 
 ## Deploying to Azure App Service
+
 Deploying from VS Code can be broken into the following steps:
+
 1. Authenticate your Azure account in VS Code
 2. Build your app
 3. Zip deploy using the Azure App Service extension
 
 ### Sign in to your Azure account
+
 1. Open VS Code
 2. Expand the Azure App Service menu in the explorer menu
     - If you don't see this, you might not have the `Azure App Service` extension installed.
@@ -144,12 +162,15 @@ You can confirm that everything worked by seeing your Azure subscription listed 
 Additionally, you should see the email associated with your account listed in the status bar at the bottom of VS Code.
 
 ### Build the app
+
 Building the app locally is required to generate a zip to deploy because the App Service won't execute build tasks.
 Build the app however you normally would:
+
 - `ctrl + shift + b` - kicks off default build in VS Code
 - execute `npm run build` from a terminal window
 
 ### Zip deploy from VS Code
+
 1. Make sure your app is built, whatever is currently in your `dist` and `node_modules` folders will be the app that is deployed.
 2. Click the blue up arrow (Deploy to Web App) on the Azure App Service section of the explorer window.
 3. Choose the entire project directory.
@@ -179,22 +200,28 @@ If you haven't created a cloud database yet, see [the setup instructions](#Creat
 13. Profit!
 
 ### Troubleshooting failed deployments
+
 Deployment can fail for various reasons, if you get stuck with a page that says *Service Unavailable* or some other error, [open an issue](https://github.com/Microsoft/TypeScript-Node-Starter/issues/new) and I'll try to help you resolve the problems.
 
-# TypeScript + Node
+## TypeScript + Node
+
 In the next few sections I will call out everything that changes when adding TypeScript to an Express project.
 Note that all of this has already been set up for this project, but feel free to use this as a reference for converting other Node.js projects to TypeScript.
 
 ## Getting TypeScript
+
 TypeScript itself is simple to add to any project with `npm`.
-```
+
+```bash
 npm install -D typescript
 ```
+
 If you're using VS Code then you're good to go!
 VS Code will detect and use the TypeScript version you have installed in your `node_modules` folder.
 For other editors, make sure you have the corresponding [TypeScript plugin](http://www.typescriptlang.org/index.html#download-links).
 
 ## Project Structure
+
 The most obvious difference in a TypeScript + Node project is the folder structure.
 In a TypeScript project, it's best to have separate _source_  and _distributable_ files.
 TypeScript (`.ts`) files live in your `src` folder and after compilation are output as JavaScript (`.js`) in the `dist` folder.
@@ -202,12 +229,16 @@ The `test` and `views` folders remain top level as expected.
 
 The full folder structure of this app is explained below:
 
-> **Note!** Make sure you have already built the app using `npm run build`
+## Note! Make sure you have already built the app using
+
+```bash
+npm run build
+```
 
 | Name | Description |
 | ------------------------ | --------------------------------------------------------------------------------------------- |
 | **.vscode**              | Contains VS Code specific settings                                                            |
-| **.github**              | Contains GitHub settings and configurations, including the GitHub Actions workflows            |
+| **.github**              | Contains GitHub settings and configurations, including the GitHub Actions workflows           |
 | **dist**                 | Contains the distributable (or output) from your TypeScript build. This is the code you ship  |
 | **node_modules**         | Contains all your npm dependencies                                                            |
 | **src**                  | Contains your source code that will be compiled to the dist dir                               |
@@ -215,7 +246,7 @@ The full folder structure of this app is explained below:
 | **src/controllers**      | Controllers define functions that respond to various http requests                            |
 | **src/models**           | Models define Mongoose schemas that will be used in storing and retrieving data from MongoDB  |
 | **src/public**           | Static assets that will be used client side                                                   |
-| **src/types**            | Holds .d.ts files not found on DefinitelyTyped. Covered more in this [section](#type-definition-dts-files)          |
+| **src/types**            | Holds .d.ts files not found on DefinitelyTyped. Covered more in this [section]files           |
 | **src**/server.ts        | Entry point to your express app                                                               |
 | **test**                 | Contains your tests. Separate from source because there is a different build process.         |
 | **views**                | Views define how your app renders on the client. In this case we're using pug                 |
@@ -223,20 +254,23 @@ The full folder structure of this app is explained below:
 | .travis.yml              | Used to configure Travis CI build                                                             |
 | .copyStaticAssets.ts     | Build script that copies images, fonts, and JS libs to the dist folder                        |
 | jest.config.js           | Used to configure Jest running tests written in TypeScript                                    |
-| package.json             | File that contains npm dependencies as well as [build scripts](#what-if-a-library-isnt-on-definitelytyped)                          |
+| package.json             | File that contains npm dependencies as well as [build scripts]                                |
 | tsconfig.json            | Config settings for compiling server code written in TypeScript                               |
 | tsconfig.tests.json      | Config settings for compiling tests written in TypeScript                                     |
 | .eslintrc                | Config settings for ESLint code style checking                                                |
 | .eslintignore            | Config settings for paths to exclude from linting                                             |
 
 ## Building the project
+
 It is rare for JavaScript projects not to have some kind of build pipeline these days, however Node projects typically have the least amount of build configuration.
 Because of this I've tried to keep the build as simple as possible.
 If you're concerned about compile time, the main watch task takes ~2s to refresh.
 
 ### Configuring TypeScript compilation
+
 TypeScript uses the file `tsconfig.json` to adjust project compile options.
 Let's dissect this project's `tsconfig.json`, starting with the `compilerOptions` which details how your project is compiled.
+
 ```json
 "compilerOptions": {
     "module": "commonjs",
@@ -271,18 +305,20 @@ Let's dissect this project's `tsconfig.json`, starting with the `compilerOptions
 The rest of the file define the TypeScript project context.
 The project context is basically a set of options that determine which files are compiled when the compiler is invoked with a specific `tsconfig.json`.
 In this case, we use the following to define our project context:
+
 ```json
 "include": [
     "src/**/*"
 ]
 ```
+
 `include` takes an array of glob patterns of files to include in the compilation.
 This project is fairly simple and all of our .ts files are under the `src` folder.
 For more complex setups, you can include an `exclude` array of glob patterns that removes specific files from the set defined with `include`.
 There is also a `files` option which takes an array of individual file names which overrides both `include` and `exclude`.
 
-
 ### Running the build
+
 All the different build steps are orchestrated via [npm scripts](https://docs.npmjs.com/misc/scripts).
 Npm scripts basically allow us to call (and chain) terminal commands via npm.
 This is nice because most JavaScript tools have easy to use command line utilities allowing us to not need grunt or gulp to manage our builds.
@@ -290,7 +326,6 @@ If you open `package.json`, you will see a `scripts` section with all the differ
 To call a script, simply run `npm run <script-name>` from the command line.
 You'll notice that npm scripts can call each other which makes it easy to compose complex builds out of simple individual build scripts.
 Below is a list of all the scripts this template has available:
-
 
 | Npm Script | Description  |
 | ------------------------- | ------------------------------------------------------------------------------------------------- |
@@ -312,6 +347,7 @@ Below is a list of all the scripts this template has available:
 | `watch`                   | Runs all watch tasks (TypeScript, Sass, Node). Use this if you're not touching static assets.     |
 
 ## Type Definition (`.d.ts`) Files
+
 TypeScript uses `.d.ts` files to provide types for JavaScript libraries that were not written in TypeScript.
 This is great because once you have a `.d.ts` file, TypeScript can type check that library and provide you better help in your editor.
 The TypeScript community actively shares all the most up-to-date `.d.ts` files for popular libraries on a GitHub repository called [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types).
@@ -320,6 +356,7 @@ Making sure that your `.d.ts` files are setup correctly is super important becau
 > **Note!** Because we're using `"noImplicitAny": true`, we are required to have a `.d.ts` file for **every** library we use. While you could set `noImplicitAny` to `false` to silence errors about missing `.d.ts` files, it is a best practice to have a `.d.ts` file for every library. (Even if the `.d.ts` file is [basically empty!](#writing-a-dts-file))
 
 ### Installing `.d.ts` files from DefinitelyTyped
+
 For the most part, you'll find `.d.ts` files for the libraries you are using on DefinitelyTyped.
 These `.d.ts` files can be easily installed into your project by using the npm scope `@types`.
 For example, if we want the `.d.ts` file for jQuery, we can do so with `npm install --save-dev @types/jquery`.
@@ -331,13 +368,16 @@ Once `.d.ts` files have been installed using npm, you should see them in your `n
 The compiler will always look in this folder for `.d.ts` files when resolving JavaScript libraries.
 
 ### What if a library isn't on DefinitelyTyped?
+
 If you try to install a `.d.ts` file from `@types` and it isn't found, or you check DefinitelyTyped and cannot find a specific library, you will want to create your own `.d.ts file`.
 In the `src` folder of this project, you'll find the `types` folder which holds the `.d.ts` files that aren't on DefinitelyTyped (or weren't as of the time of this writing).
 
 #### Setting up TypeScript to look for `.d.ts` files in another folder
+
 The compiler knows to look in `node_modules/@types` by default, but to help the compiler find our own `.d.ts` files we have to configure path mapping in our `tsconfig.json`.
 Path mapping can get pretty confusing, but the basic idea is that the TypeScript compiler will look in specific places, in a specific order when resolving modules, and we have the ability to tell the compiler exactly how to do it.
 In the `tsconfig.json` for this project you'll see the following:
+
 ```json
 "baseUrl": ".",
 "paths": {
@@ -347,28 +387,36 @@ In the `tsconfig.json` for this project you'll see the following:
     ]
 }
 ```
+
 This tells the TypeScript compiler that in addition to looking in `node_modules/@types` for every import (`*`) also look in our own `.d.ts` file location `<baseUrl>` + `src/types/*`.
 So when we write something like:
+
 ```ts
 import * as flash from "express-flash";
 ```
+
 First the compiler will look for a `d.ts` file in `node_modules/@types` and then when it doesn't find one look in `src/types` and find our file `express-flash.d.ts`.
 
 #### Using `dts-gen`
+
 Unless you are familiar with `.d.ts` files, I strongly recommend trying to use the tool [dts-gen](https://github.com/Microsoft/dts-gen) first.
 The [README](https://github.com/Microsoft/dts-gen#dts-gen-a-typescript-definition-file-generator) does a great job explaining how to use the tool, and for most cases, you'll get an excellent scaffold of a `.d.ts` file to start with.
 In this project, `bcrypt-nodejs.d.ts`, `fbgraph.d.ts`, and `lusca.d.ts` were all generated using `dts-gen`.
 
 #### Writing a `.d.ts` file
+
 If generating a `.d.ts` using `dts-gen` isn't working, [you should tell me about it first](https://www.surveymonkey.com/r/LN2CV82), but then you can create your own `.d.ts` file.
 
 If you just want to silence the compiler for the time being, create a file called `<some-library>.d.ts` in your `types` folder and then add this line of code:
+
 ```ts
 declare module "<some-library>";
 ```
+
 If you want to invest some time into making a great `.d.ts` file that will give you great type checking and IntelliSense, the TypeScript website has great [docs on authoring `.d.ts` files](http://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html).
 
 #### Contributing to DefinitelyTyped
+
 The reason it's so easy to get great `.d.ts` files for most libraries is that developers like you contribute their work back to DefinitelyTyped.
 Contributing `.d.ts` files is a great way to get into the open source community if it's something you've never tried before, and as soon as your changes are accepted, every other developer in the world has access to your work.
 
@@ -376,7 +424,9 @@ If you're interested in giving it a shot, check out the [guidance on DefinitelyT
 If you're not interested, [you should tell me why](https://www.surveymonkey.com/r/LN2CV82) so we can help make it easier in the future!
 
 ### Summary of `.d.ts` management
+
 In general if you stick to the following steps you should have minimal `.d.ts` issues;
+
 1. After installing any npm package as a dependency or dev dependency, immediately try to install the `.d.ts` file via `@types`.
 2. If the library has a `.d.ts` file on DefinitelyTyped, the installation will succeed, and you are done.
 If the install fails because the package doesn't exist, continue to step 3.
@@ -386,30 +436,37 @@ If it succeeds, you are done.
 If not, continue to step 5.
 5. Create a file called `<some-library>.d.ts` in your `types` folder.
 6. Add the following code:
+
 ```ts
 declare module "<some-library>";
 ```
-7. At this point everything should compile with no errors, and you can either improve the types in the `.d.ts` file by following this [guide on authoring `.d.ts` files](http://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html) or continue with no types.
-8. If you are still having issues, let me know by emailing me or pinging me on twitter, I will help you.
+
+1. At this point everything should compile with no errors, and you can either improve the types in the `.d.ts` file by following this [guide on authoring `.d.ts` files](http://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html) or continue with no types.
+2. If you are still having issues, let me know by emailing me or pinging me on twitter, I will help you.
 
 ## Debugging
+
 Debugging TypeScript is exactly like debugging JavaScript with one caveat, you need source maps.
 
 ### Source maps
+
 Source maps allow you to drop break points in your TypeScript source code and have that break point be hit by the JavaScript that is being executed at runtime.
 
 > **Note!** - Source maps aren't specific to TypeScript.
-Anytime JavaScript is transformed (transpiled, compiled, optimized, minified, etc) you need source maps so that the code that is executed at runtime can be _mapped_ back to the source that generated it.
+Anytime JavaScript is transformed (transpiled, compiled, optimized, minified, etc) you need source maps so that the code that is executed at runtime can be *mapped* back to the source that generated it.
 
 The best part of source maps is when configured correctly, you don't even know they exist! So let's take a look at how we do that in this project.
 
 #### Configuring source maps
+
 First you need to make sure your `tsconfig.json` has source map generation enabled:
+
 ```json
 "compilerOptions" {
     "sourceMap": true
 }
 ```
+
 With this option enabled, next to every `.js` file that the TypeScript compiler outputs there will be a `.map.js` file as well.
 This `.map.js` file provides the information necessary to map back to the source `.ts` file while debugging.
 
@@ -418,6 +475,7 @@ This is more common when writing client side code because some bundlers need inl
 Because we are writing Node.js code, we don't have to worry about this.
 
 ### Using the debugger in VS Code
+
 Debugging is one of the places where VS Code really shines over other editors.
 Node.js debugging in VS Code is easy to set up and even easier to use.
 This project comes pre-configured with everything you need to get started.
@@ -425,13 +483,17 @@ This project comes pre-configured with everything you need to get started.
 When you hit `F5` in VS Code, it looks for a top level `.vscode` folder with a `launch.json` file.
 
 You can debug in the following ways:
-* **Launch Program** - transpile typescript to javascript via npm build, then launch the app with the debugger attached on startup
-* **Attach by Process ID** - run the project in debug mode. This is mostly identical to the "Node.js: Attach by Process ID" template with one minor change.
+
+- **Launch Program** - transpile typescript to javascript via npm build, then launch the app with the debugger attached on startup
+- **Attach by Process ID** - run the project in debug mode. This is mostly identical to the "Node.js: Attach by Process ID" template with one minor change.
+
 We added `"protocol": "inspector"` which tells VS Code that we're using the latest version of Node which uses a new debug protocol.
-* **Jest Current File** - have a Jest test file open and active in VSCode, then debug this specific file by setting break point. All tests are not run.
-* **Jest all** -  run all tests, set a break point.
+
+- **Jest Current File** - have a Jest test file open and active in VSCode, then debug this specific file by setting break point. All tests are not run.
+- **Jest all** -  run all tests, set a break point.
 
 In this file, you can tell VS Code exactly what you want to do:
+
 ```json
 [
         {
@@ -486,18 +548,24 @@ You will probably have multiple node processes running, so you need to find the 
 Now just set your breakpoints and go!
 
 ## Testing
+
 For this project, I chose [Jest](https://facebook.github.io/jest/) as our test framework.
 While Mocha is probably more common, Mocha seems to be looking for a new maintainer and setting up TypeScript testing in Jest is wicked simple.
 
 ### Install the components
+
 To add TypeScript + Jest support, first install a few npm packages:
-```
+
+```bash
 npm install -D jest ts-jest
 ```
+
 `jest` is the testing framework itself, and `ts-jest` is just a simple function to make running TypeScript tests a little easier.
 
 ### Configure Jest
+
 Jest's configuration lives in `jest.config.js`, so let's open it up and add the following code:
+
 ```js
 module.exports = {
     globals: {
@@ -518,33 +586,41 @@ module.exports = {
     testEnvironment: 'node'
 };
 ```
+
 Basically we are telling Jest that we want it to consume all files that match the pattern `"**/test/**/*.test.(ts|js)"` (all `.test.ts`/`.test.js` files in the `test` folder), but we want to preprocess the `.ts` files first.
 This preprocess step is very flexible, but in our case, we just want to compile our TypeScript to JavaScript using our `tsconfig.json`.
 This all happens in memory when you run the tests, so there are no output `.js` test files for you to manage.
 
 ### Running tests
+
 Simply run `npm run test`.
 Note this will also generate a coverage report.
 
 ### Writing tests
+
 Writing tests for web apps has entire books dedicated to it and best practices are strongly influenced by personal style, so I'm deliberately avoiding discussing how or when to write tests in this guide.
 However, if prescriptive guidance on testing is something that you're interested in, [let me know](https://www.surveymonkey.com/r/LN2CV82), I'll do some homework and get back to you.
 
 ## ESLint
+
 ESLint is a code linter which mainly helps catch quickly minor code quality and style issues.
 
 ### ESLint rules
+
 Like most linters, ESLint has a wide set of configurable rules as well as support for custom rule sets.
 All rules are configured through `.eslintrc` configuration file.
 In this project, we are using a fairly basic set of rules with no additional custom rules.
 
 ### Running ESLint
+
 Like the rest of our build steps, we use npm scripts to invoke ESLint.
 To run ESLint you can call the main build script or just the ESLint task.
-```
+
+```bash
 npm run build   // runs full build including ESLint
 npm run lint    // runs only ESLint
 ```
+
 Notice that ESLint is not a part of the main watch task.
 
 If you are interested in seeing ESLint feedback as soon as possible, I strongly recommend the [VS Code ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
@@ -560,7 +636,8 @@ To enhance your development experience while working in VSCode we also provide y
 - [Azure Cosmos DB](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb)
 - [Azure App Service](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureappservice)
 
-# Dependencies
+## Dependencies
+
 Dependencies are managed through `package.json`.
 In that file you'll find two sections:
 
@@ -611,9 +688,11 @@ In that file you'll find two sections:
 
 To install or update these dependencies you can use `npm install` or `npm update`.
 
-# Hackathon Starter Project
+## Hackathon Starter Project
+
 A majority of this quick start's content was inspired or adapted from Sahat's excellent [Hackathon Starter project](https://github.com/sahat/hackathon-starter).
 
 ## License
+
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the [MIT](LICENSE) License.
