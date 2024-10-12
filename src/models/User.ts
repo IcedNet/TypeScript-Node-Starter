@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt-nodejs";
+import bcrypt from "bcrypt-ts";
 import crypto from "crypto";
 import mongoose from "mongoose";
 
@@ -38,8 +38,8 @@ const userSchema = new mongoose.Schema<UserDocument>(
         passwordResetExpires: Date,
     
         facebook: String,
-        twitter: String,
-        google: String,
+        // twitter: String,
+        // google: String,
         tokens: Array,
     
         profile: {
@@ -57,22 +57,34 @@ const userSchema = new mongoose.Schema<UserDocument>(
  * Password hash middleware.
  */
 userSchema.pre("save", function save(next) {
-    const user = this as UserDocument;
-    if (!user.isModified("password")) { return next(); }
-    bcrypt.genSalt(10, (err, salt) => {
-        if (err) { return next(err); }
-        bcrypt.hash(user.password, salt, undefined, (err: mongoose.Error, hash) => {
-            if (err) { return next(err); }
-            user.password = hash;
-            next();
-        });
-    });
+  const user = this as UserDocument;
+  if (!user.isModified("password")) { return next(); }
+  var salt = ""; 
+  bcrypt.genSalt(10).then((result) => { salt = result });
+  bcrypt.hash(user.password, salt).then(
+    (hash: string) => {
+      user.password = hash;
+      next();
+    },
+    (err) => {
+      next(err);
+    }
+  );
+    // (10, (err, salt) => {
+    //     if (err) { return next(err); }
+    //     bcrypt.hash(user.password, salt, undefined, (err: mongoose.Error, hash) => {
+    //         if (err) { return next(err); }
+    //         user.password = hash;
+    //         next();
+    //     });
+    // });
 });
 
 const comparePassword: comparePasswordFunction = function (candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, (err: mongoose.Error, isMatch: boolean) => {
-        cb(err, isMatch);
-    });
+  bcrypt.compare(candidatePassword, this.password);
+    // (candidatePassword, this.password, (err: mongoose.Error, isMatch: boolean) => {
+        // cb(err, isMatch);
+    // });
 };
 
 userSchema.methods.comparePassword = comparePassword;

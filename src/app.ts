@@ -46,10 +46,10 @@ app.use(session({
     saveUninitialized: true,
     secret: SESSION_SECRET,
     store: new MongoStore({
-        mongoUrl,
-        mongoOptions: {
-            autoReconnect: true
-        }
+        mongoUrl // ,
+        // mongoOptions: {
+        //     autoReconnect: true
+        // }
     })
 }));
 app.use(passport.initialize());
